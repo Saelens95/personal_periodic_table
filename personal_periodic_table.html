@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COSMIC PERIODIC TABLE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@500;700&display=swap');
+        body { 
+            background: linear-gradient(135deg, #05050f, #0f0f1f, #1a1a2e); 
+            color: #e0f2fe; 
+            font-family: 'Inter', system-ui, sans-serif; 
+            overflow-x: hidden; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .cosmic-bg { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: radial-gradient(circle at 40% 30%, rgba(103,232,249,0.25) 0%, rgba(0,245,255,0.18) 50%, transparent 85%); 
+            z-index: -1; 
+            animation: nebula 35s infinite alternate ease-in-out; 
+        }
+        @keyframes nebula { 
+            0% { opacity: 0.92; } 
+            100% { opacity: 1; } 
+        }
+        
+        h1 { font-family: 'Orbitron', sans-serif; text-shadow: 0 0 25px #00f5ff, 0 0 50px #67e8f9; color: #ffffff; }
+        
+        .main-wrapper {
+            width: 100%;
+            max-width: 1480px;
+            margin: 0 auto;
+        }
+        
+        .periodic-table { 
+            display: grid; 
+            grid-template-columns: repeat(18, 64px); 
+            gap: 6px; 
+            padding: 40px 30px; 
+            margin: 0 auto;
+        }
+        .element { 
+            width: 64px; height: 64px; 
+            background: rgba(15, 23, 42, 0.95); 
+            border: 2px solid #67e8f9; 
+            border-radius: 12px; 
+            display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; 
+            cursor: pointer; 
+            transition: all 0.35s cubic-bezier(0.23, 1.0, 0.32, 1); 
+            box-shadow: 0 0 12px rgba(103,232,249,0.5), inset 0 0 10px rgba(0,245,255,0.2); 
+            position: relative; 
+            overflow: hidden; 
+        }
+        .element::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(103,232,249,0.25), rgba(0,245,255,0.15), transparent);
+            opacity: 0.7;
+            pointer-events: none;
+            transition: opacity 0.35s;
+        }
+        .element:hover::before { opacity: 1; }
+        
+        .element:hover { 
+            transform: scale(1.28) translateY(-5px); 
+            box-shadow: 0 0 35px #00f5ff, 0 0 70px #67e8f9; 
+            border-color: #00f5ff; 
+            z-index: 30; 
+        }
+        .element .number { position: absolute; top: 5px; left: 7px; font-size: 10px; color: #67e8f9; font-weight: 600; text-shadow: 0 0 6px #00f5ff; }
+        .element .symbol { font-size: 27px; font-weight: 700; color: #ffffff; letter-spacing: -1.2px; text-shadow: 0 0 10px #67e8f9; }
+        .element .mass { font-size: 9px; color: #bae6fd; margin-top: 2px; }
+        
+        .spacer {
+            width: 64px; height: 64px; 
+            visibility: hidden;
+        }
+        
+        .fblock-row {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            padding-left: 140px;
+            max-width: 1480px;
+            margin: 0 auto;
+        }
+        
+        .fblock-label {
+            text-align: center;
+            color: #67e8f9;
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            width: 100%;
+        }
+        
+        .holo-popup { 
+            position: fixed; 
+            background: rgba(15,23,42,0.98); 
+            border: 3px solid #00f5ff; 
+            box-shadow: 0 0 40px #67e8f9, 0 0 80px rgba(0,245,255,0.6); 
+            border-radius: 16px; 
+            padding: 22px; 
+            max-width: 360px; 
+            z-index: 70; 
+            pointer-events: auto; 
+            animation: holoFloat 2.8s infinite ease-in-out; 
+        }
+        @keyframes holoFloat { 
+            0%,100% { transform: translateY(0) rotate(0.4deg); } 
+            50% { transform: translateY(-10px) rotate(-0.4deg); } 
+        }
+        
+        .modal-content { 
+            background: linear-gradient(180deg, #0f172a, #1e2937); 
+            border: 3px solid #00f5ff; 
+            box-shadow: 0 0 50px #67e8f9, 0 0 100px rgba(0,245,255,0.5); 
+        }
+        
+        .avogadro-btn {
+            background: #000;
+            border: 2px solid #67e8f9;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .avogadro-btn:hover {
+            background: #67e8f9;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="cosmic-bg"></div>
+    
+    <div class="flex justify-center items-center px-8 py-6 text-white border-b border-cyan-400/30 w-full max-w-[1480px]">
+        <h1 class="text-5xl font-bold tracking-[4px]">COSMIC PERIODIC TABLE</h1>
+        <button onclick="openAvogadroHelp()" class="avogadro-btn ml-auto flex items-center gap-2">
+            <span>🧪</span> Advanced Modeling with Avogadro
+        </button>
+    </div>
+
+    <div id="grid-mode" class="main-wrapper"></div>
+
+    <!-- Holographic Hover -->
+    <div id="holo-popup" class="holo-popup hidden text-sm"></div>
+
+    <!-- 3D Crystal Modal -->
+    <div id="modal" onclick="if(event.target.id==='modal') closeModal()" class="hidden fixed inset-0 bg-black/95 flex items-center justify-center z-[100]">
+        <div onclick="event.stopImmediatePropagation()" class="modal-content p-10 rounded-3xl w-full max-w-4xl mx-6">
+            <div class="flex justify-between mb-8">
+                <div id="modal-title" class="text-4xl font-bold text-white tracking-wide"></div>
+                <button onclick="closeModal()" class="text-5xl text-cyan-300 hover:text-white leading-none transition-colors">×</button>
+            </div>
+            <div id="three-canvas" class="w-full h-[460px] bg-black/90 rounded-3xl overflow-hidden border border-cyan-400/50"></div>
+            <div id="modal-notes" class="mt-10 text-slate-200 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 text-base leading-relaxed"></div>
+            
+            <div class="mt-8 flex justify-center">
+                <button onclick="exportToXYZ()" 
+                        class="avogadro-btn flex items-center gap-2 px-6 py-3 text-sm">
+                    📤 Export this element as .xyz for Avogadro
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // FULL 118 ELEMENTS (complete)
+        const elements = [
+            {"number":1,"symbol":"H","name":"Hydrogen","mass":"1.008","lattice":"hex","notes":"Lightest element, powers stars via fusion."},
+            {"number":2,"symbol":"He","name":"Helium","mass":"4.003","lattice":"fcc","notes":"Noble gas, second most abundant in universe."},
+            {"number":3,"symbol":"Li","name":"Lithium","mass":"6.941","lattice":"bcc","notes":"Softest metal, crucial for modern batteries."},
+            {"number":4,"symbol":"Be","name":"Beryllium","mass":"9.012","lattice":"hcp","notes":"Lightweight, high stiffness, used in aerospace."},
+            {"number":5,"symbol":"B","name":"Boron","mass":"10.81","lattice":"trig","notes":"Metalloid used in semiconductors and borosilicate glass."},
+            {"number":6,"symbol":"C","name":"Carbon","mass":"12.011","lattice":"hex","notes":"Forms diamond, graphite, graphene; basis of life."},
+            {"number":7,"symbol":"N","name":"Nitrogen","mass":"14.007","lattice":"hex","notes":"78% of atmosphere, essential for amino acids."},
+            {"number":8,"symbol":"O","name":"Oxygen","mass":"15.999","lattice":"monoc","notes":"Most abundant element in Earth's crust by mass."},
+            {"number":9,"symbol":"F","name":"Fluorine","mass":"18.998","lattice":"monoc","notes":"Most reactive nonmetal, used in fluoropolymers."},
+            {"number":10,"symbol":"Ne","name":"Neon","mass":"20.180","lattice":"fcc","notes":"Noble gas, iconic glowing red in signs."},
+            {"number":11,"symbol":"Na","name":"Sodium","mass":"22.990","lattice":"bcc","notes":"Reactive alkali metal, key in nerves and salt."},
+            {"number":12,"symbol":"Mg","name":"Magnesium","mass":"24.305","lattice":"hcp","notes":"Light alloy metal, burns with bright white flame."},
+            {"number":13,"symbol":"Al","name":"Aluminium","mass":"26.982","lattice":"fcc","notes":"Light, corrosion-resistant, most used non-ferrous metal."},
+            {"number":14,"symbol":"Si","name":"Silicon","mass":"28.085","lattice":"diamond","notes":"Semiconductor backbone of electronics and solar cells."},
+            {"number":15,"symbol":"P","name":"Phosphorus","mass":"30.974","lattice":"tric","notes":"Essential for DNA, bones, and ATP energy transfer."},
+            {"number":16,"symbol":"S","name":"Sulfur","mass":"32.06","lattice":"orth","notes":"Yellow nonmetal, used in sulfuric acid and rubber."},
+            {"number":17,"symbol":"Cl","name":"Chlorine","mass":"35.45","lattice":"orth","notes":"Halogen, disinfectant, component of table salt."},
+            {"number":18,"symbol":"Ar","name":"Argon","mass":"39.948","lattice":"fcc","notes":"Inert noble gas, used in welding and lighting."},
+            {"number":19,"symbol":"K","name":"Potassium","mass":"39.098","lattice":"bcc","notes":"Vital for plant growth and muscle function."},
+            {"number":20,"symbol":"Ca","name":"Calcium","mass":"40.078","lattice":"fcc","notes":"Essential for bones, teeth, and cement."},
+            {"number":21,"symbol":"Sc","name":"Scandium","mass":"44.956","lattice":"hcp","notes":"Rare earth-like, strengthens aluminum alloys."},
+            {"number":22,"symbol":"Ti","name":"Titanium","mass":"47.867","lattice":"hcp","notes":"Strong, lightweight, highly corrosion resistant."},
+            {"number":23,"symbol":"V","name":"Vanadium","mass":"50.942","lattice":"bcc","notes":"Adds strength to steel, used in tools."},
+            {"number":24,"symbol":"Cr","name":"Chromium","mass":"51.996","lattice":"bcc","notes":"Provides corrosion resistance in stainless steel."},
+            {"number":25,"symbol":"Mn","name":"Manganese","mass":"54.938","lattice":"bcc","notes":"Essential for steel production and enzymes."},
+            {"number":26,"symbol":"Fe","name":"Iron","mass":"55.845","lattice":"bcc","notes":"Most used metal, core of Earth's magnetic field."},
+            {"number":27,"symbol":"Co","name":"Cobalt","mass":"58.933","lattice":"hcp","notes":"Used in batteries, magnets, and blue pigments."},
+            {"number":28,"symbol":"Ni","name":"Nickel","mass":"58.693","lattice":"fcc","notes":"Corrosion resistant, used in stainless steel and coins."},
+            {"number":29,"symbol":"Cu","name":"Copper","mass":"63.546","lattice":"fcc","notes":"Excellent conductor, used in wiring and plumbing."},
+            {"number":30,"symbol":"Zn","name":"Zinc","mass":"65.38","lattice":"hcp","notes":"Galvanizing metal, essential trace element."},
+            {"number":31,"symbol":"Ga","name":"Gallium","mass":"69.723","lattice":"orth","notes":"Melts in your hand, used in semiconductors."},
+            {"number":32,"symbol":"Ge","name":"Germanium","mass":"72.63","lattice":"diamond","notes":"Semiconductor, used in early transistors."},
+            {"number":33,"symbol":"As","name":"Arsenic","mass":"74.922","lattice":"trig","notes":"Toxic metalloid, used in semiconductors."},
+            {"number":34,"symbol":"Se","name":"Selenium","mass":"78.971","lattice":"hex","notes":"Photoconductor, used in glass and electronics."},
+            {"number":35,"symbol":"Br","name":"Bromine","mass":"79.904","lattice":"orth","notes":"Reddish-brown liquid halogen."},
+            {"number":36,"symbol":"Kr","name":"Krypton","mass":"83.798","lattice":"fcc","notes":"Noble gas, used in high-performance lighting."},
+            {"number":37,"symbol":"Rb","name":"Rubidium","mass":"85.468","lattice":"bcc","notes":"Highly reactive, used in atomic clocks."},
+            {"number":38,"symbol":"Sr","name":"Strontium","mass":"87.62","lattice":"fcc","notes":"Used in fireworks (red color) and magnets."},
+            {"number":39,"symbol":"Y","name":"Yttrium","mass":"88.906","lattice":"hcp","notes":"Used in LEDs and superconductors."},
+            {"number":40,"symbol":"Zr","name":"Zirconium","mass":"91.224","lattice":"hcp","notes":"Corrosion resistant, used in nuclear reactors."},
+            {"number":41,"symbol":"Nb","name":"Niobium","mass":"92.906","lattice":"bcc","notes":"Superconducting alloys, high-strength steel."},
+            {"number":42,"symbol":"Mo","name":"Molybdenum","mass":"95.95","lattice":"bcc","notes":"High melting point, used in alloys."},
+            {"number":43,"symbol":"Tc","name":"Technetium","mass":"[98]","lattice":"hcp","notes":"Radioactive, used in medical imaging."},
+            {"number":44,"symbol":"Ru","name":"Ruthenium","mass":"101.07","lattice":"hcp","notes":"Hard platinum-group metal, catalysts."},
+            {"number":45,"symbol":"Rh","name":"Rhodium","mass":"102.91","lattice":"fcc","notes":"Most expensive precious metal, catalysts."},
+            {"number":46,"symbol":"Pd","name":"Palladium","mass":"106.42","lattice":"fcc","notes":"Excellent hydrogen absorber, catalytic converters."},
+            {"number":47,"symbol":"Ag","name":"Silver","mass":"107.87","lattice":"fcc","notes":"Best electrical and thermal conductor."},
+            {"number":48,"symbol":"Cd","name":"Cadmium","mass":"112.41","lattice":"hcp","notes":"Used in batteries and pigments (toxic)."},
+            {"number":49,"symbol":"In","name":"Indium","mass":"114.82","lattice":"tet","notes":"Soft metal, used in touchscreens (ITO)."},
+            {"number":50,"symbol":"Sn","name":"Tin","mass":"118.71","lattice":"tet","notes":"Used in solder and bronze."},
+            {"number":51,"symbol":"Sb","name":"Antimony","mass":"121.76","lattice":"trig","notes":"Used in flame retardants and alloys."},
+            {"number":52,"symbol":"Te","name":"Tellurium","mass":"127.60","lattice":"hex","notes":"Used in solar panels and thermoelectric devices."},
+            {"number":53,"symbol":"I","name":"Iodine","mass":"126.90","lattice":"orth","notes":"Essential for thyroid hormones."},
+            {"number":54,"symbol":"Xe","name":"Xenon","mass":"131.29","lattice":"fcc","notes":"Noble gas, used in ion thrusters and lighting."},
+            {"number":55,"symbol":"Cs","name":"Caesium","mass":"132.91","lattice":"bcc","notes":"Most reactive metal, used in atomic clocks."},
+            {"number":56,"symbol":"Ba","name":"Barium","mass":"137.33","lattice":"bcc","notes":"Used in medical imaging and fireworks."},
+            {"number":57,"symbol":"La","name":"Lanthanum","mass":"138.91","lattice":"hcp","notes":"Starting element of lanthanides."},
+            {"number":58,"symbol":"Ce","name":"Cerium","mass":"140.12","lattice":"fcc","notes":"Used in catalytic converters and glass polishing."},
+            {"number":59,"symbol":"Pr","name":"Praseodymium","mass":"140.91","lattice":"hcp","notes":"Used in high-strength magnets."},
+            {"number":60,"symbol":"Nd","name":"Neodymium","mass":"144.24","lattice":"hcp","notes":"Strongest permanent magnets."},
+            {"number":61,"symbol":"Pm","name":"Promethium","mass":"[145]","lattice":"hcp","notes":"Radioactive, used in nuclear batteries."},
+            {"number":62,"symbol":"Sm","name":"Samarium","mass":"150.36","lattice":"rhom","notes":"Used in magnets and nuclear reactors."},
+            {"number":63,"symbol":"Eu","name":"Europium","mass":"151.96","lattice":"bcc","notes":"Red phosphor in displays."},
+            {"number":64,"symbol":"Gd","name":"Gadolinium","mass":"157.25","lattice":"hcp","notes":"Used in MRI contrast agents."},
+            {"number":65,"symbol":"Tb","name":"Terbium","mass":"158.93","lattice":"hcp","notes":"Green phosphor and magneto-optical devices."},
+            {"number":66,"symbol":"Dy","name":"Dysprosium","mass":"162.50","lattice":"hcp","notes":"High-temperature magnets."},
+            {"number":67,"symbol":"Ho","name":"Holmium","mass":"164.93","lattice":"hcp","notes":"Strongest magnetic field material."},
+            {"number":68,"symbol":"Er","name":"Erbium","mass":"167.26","lattice":"hcp","notes":"Used in fiber optic amplifiers."},
+            {"number":69,"symbol":"Tm","name":"Thulium","mass":"168.93","lattice":"hcp","notes":"Portable X-ray sources."},
+            {"number":70,"symbol":"Yb","name":"Ytterbium","mass":"173.05","lattice":"fcc","notes":"Used in atomic clocks and lasers."},
+            {"number":71,"symbol":"Lu","name":"Lutetium","mass":"174.97","lattice":"hcp","notes":"Used in PET scanners and catalysts."},
+            {"number":72,"symbol":"Hf","name":"Hafnium","mass":"178.49","lattice":"hcp","notes":"High melting point, nuclear control rods."},
+            {"number":73,"symbol":"Ta","name":"Tantalum","mass":"180.95","lattice":"bcc","notes":"Corrosion resistant, used in capacitors."},
+            {"number":74,"symbol":"W","name":"Tungsten","mass":"183.84","lattice":"bcc","notes":"Highest melting point metal."},
+            {"number":75,"symbol":"Re","name":"Rhenium","mass":"186.21","lattice":"hcp","notes":"High-temperature alloys."},
+            {"number":76,"symbol":"Os","name":"Osmium","mass":"190.23","lattice":"hcp","notes":"Densest naturally occurring element."},
+            {"number":77,"symbol":"Ir","name":"Iridium","mass":"192.22","lattice":"fcc","notes":"Most corrosion-resistant metal."},
+            {"number":78,"symbol":"Pt","name":"Platinum","mass":"195.08","lattice":"fcc","notes":"Catalytic converters and jewelry."},
+            {"number":79,"symbol":"Au","name":"Gold","mass":"196.97","lattice":"fcc","notes":"Highly malleable, excellent conductor."},
+            {"number":80,"symbol":"Hg","name":"Mercury","mass":"200.59","lattice":"rhom","notes":"Only liquid metal at room temperature."},
+            {"number":81,"symbol":"Tl","name":"Thallium","mass":"204.38","lattice":"hcp","notes":"Toxic, used in electronics (limited)."},
+            {"number":82,"symbol":"Pb","name":"Lead","mass":"207.2","lattice":"fcc","notes":"Dense, used in shielding and batteries."},
+            {"number":83,"symbol":"Bi","name":"Bismuth","mass":"208.98","lattice":"rhom","notes":"Non-toxic alternative to lead."},
+            {"number":84,"symbol":"Po","name":"Polonium","mass":"[209]","lattice":"cub","notes":"Highly radioactive."},
+            {"number":85,"symbol":"At","name":"Astatine","mass":"[210]","lattice":"unknown","notes":"Rare radioactive halogen."},
+            {"number":86,"symbol":"Rn","name":"Radon","mass":"[222]","lattice":"fcc","notes":"Radioactive noble gas."},
+            {"number":87,"symbol":"Fr","name":"Francium","mass":"[223]","lattice":"bcc","notes":"Most unstable alkali metal."},
+            {"number":88,"symbol":"Ra","name":"Radium","mass":"[226]","lattice":"bcc","notes":"Highly radioactive."},
+            {"number":89,"symbol":"Ac","name":"Actinium","mass":"[227]","lattice":"fcc","notes":"Radioactive, glows blue."},
+            {"number":90,"symbol":"Th","name":"Thorium","mass":"232.04","lattice":"fcc","notes":"Nuclear fuel potential."},
+            {"number":91,"symbol":"Pa","name":"Protactinium","mass":"231.04","lattice":"tet","notes":"Rare actinide."},
+            {"number":92,"symbol":"U","name":"Uranium","mass":"238.03","lattice":"orth","notes":"Nuclear fuel, densest naturally occurring element."},
+            {"number":93,"symbol":"Np","name":"Neptunium","mass":"[237]","lattice":"orth","notes":"Synthetic actinide."},
+            {"number":94,"symbol":"Pu","name":"Plutonium","mass":"[244]","lattice":"monoc","notes":"Used in nuclear weapons and reactors."},
+            {"number":95,"symbol":"Am","name":"Americium","mass":"[243]","lattice":"hcp","notes":"Used in smoke detectors."},
+            {"number":96,"symbol":"Cm","name":"Curium","mass":"[247]","lattice":"hcp","notes":"Powerful alpha emitter."},
+            {"number":97,"symbol":"Bk","name":"Berkelium","mass":"[247]","lattice":"hcp","notes":"Synthetic."},
+            {"number":98,"symbol":"Cf","name":"Californium","mass":"[251]","lattice":"hcp","notes":"Neutron source."},
+            {"number":99,"symbol":"Es","name":"Einsteinium","mass":"[252]","lattice":"hcp","notes":"Synthetic."},
+            {"number":100,"symbol":"Fm","name":"Fermium","mass":"[257]","lattice":"hcp","notes":"Synthetic."},
+            {"number":101,"symbol":"Md","name":"Mendelevium","mass":"[258]","lattice":"hcp","notes":"Synthetic."},
+            {"number":102,"symbol":"No","name":"Nobelium","mass":"[259]","lattice":"hcp","notes":"Synthetic."},
+            {"number":103,"symbol":"Lr","name":"Lawrencium","mass":"[266]","lattice":"hcp","notes":"Synthetic."},
+            {"number":104,"symbol":"Rf","name":"Rutherfordium","mass":"[267]","lattice":"hcp","notes":"Synthetic."},
+            {"number":105,"symbol":"Db","name":"Dubnium","mass":"[268]","lattice":"unknown","notes":"Synthetic."},
+            {"number":106,"symbol":"Sg","name":"Seaborgium","mass":"[269]","lattice":"unknown","notes":"Synthetic."},
+            {"number":107,"symbol":"Bh","name":"Bohrium","mass":"[270]","lattice":"unknown","notes":"Synthetic."},
+            {"number":108,"symbol":"Hs","name":"Hassium","mass":"[277]","lattice":"unknown","notes":"Synthetic."},
+            {"number":109,"symbol":"Mt","name":"Meitnerium","mass":"[278]","lattice":"unknown","notes":"Synthetic."},
+            {"number":110,"symbol":"Ds","name":"Darmstadtium","mass":"[281]","lattice":"unknown","notes":"Synthetic."},
+            {"number":111,"symbol":"Rg","name":"Roentgenium","mass":"[282]","lattice":"unknown","notes":"Synthetic."},
+            {"number":112,"symbol":"Cn","name":"Copernicium","mass":"[285]","lattice":"unknown","notes":"Synthetic."},
+            {"number":113,"symbol":"Nh","name":"Nihonium","mass":"[286]","lattice":"unknown","notes":"Synthetic."},
+            {"number":114,"symbol":"Fl","name":"Flerovium","mass":"[289]","lattice":"unknown","notes":"Synthetic."},
+            {"number":115,"symbol":"Mc","name":"Moscovium","mass":"[290]","lattice":"unknown","notes":"Synthetic."},
+            {"number":116,"symbol":"Lv","name":"Livermorium","mass":"[293]","lattice":"unknown","notes":"Synthetic."},
+            {"number":117,"symbol":"Ts","name":"Tennessine","mass":"[294]","lattice":"unknown","notes":"Synthetic."},
+            {"number":118,"symbol":"Og","name":"Oganesson","mass":"[294]","lattice":"unknown","notes":"Synthetic noble gas candidate."}
+        ];
+
+        let scene, camera, renderer, crystal, animationFrameId;
+        let hideTimeout = null;
+        let currentElement = null;
+
+        function createElementDiv(el) {
+            const div = document.createElement('div');
+            div.className = 'element';
+            div.innerHTML = `
+                <div class="number">${el.number}</div>
+                <div class="symbol">${el.symbol}</div>
+                <div class="mass">${el.mass}</div>
+            `;
+            div.onmouseover = (e) => showHoloPopup(e, el);
+            div.onmouseout = hideHoloPopup;
+            div.onclick = () => showCrystalModal(el);
+            return div;
+        }
+
+        function createSpacer() {
+            const div = document.createElement('div');
+            div.className = 'spacer';
+            return div;
+        }
+
+        function createElements() {
+            const container = document.getElementById('grid-mode');
+            container.innerHTML = '';
+
+            const mainWrapper = document.createElement('div');
+            mainWrapper.className = 'main-wrapper';
+            container.appendChild(mainWrapper);
+
+            const mainTable = document.createElement('div');
+            mainTable.className = 'periodic-table';
+            mainWrapper.appendChild(mainTable);
+
+            // Period 1
+            mainTable.appendChild(createElementDiv(elements[0]));
+            for (let i = 0; i < 16; i++) mainTable.appendChild(createSpacer());
+            mainTable.appendChild(createElementDiv(elements[1]));
+
+            // Period 2
+            mainTable.appendChild(createElementDiv(elements[2]));
+            mainTable.appendChild(createElementDiv(elements[3]));
+            for (let i = 0; i < 10; i++) mainTable.appendChild(createSpacer());
+            for (let i = 4; i < 10; i++) mainTable.appendChild(createElementDiv(elements[i]));
+
+            // Period 3
+            mainTable.appendChild(createElementDiv(elements[10]));
+            mainTable.appendChild(createElementDiv(elements[11]));
+            for (let i = 0; i < 10; i++) mainTable.appendChild(createSpacer());
+            for (let i = 12; i < 18; i++) mainTable.appendChild(createElementDiv(elements[i]));
+
+            // Period 4
+            for (let i = 18; i < 36; i++) mainTable.appendChild(createElementDiv(elements[i]));
+
+            // Period 5
+            for (let i = 36; i < 54; i++) mainTable.appendChild(createElementDiv(elements[i]));
+
+            // Period 6
+            mainTable.appendChild(createElementDiv(elements[54]));
+            mainTable.appendChild(createElementDiv(elements[55]));
+            mainTable.appendChild(createSpacer());
+            for (let i = 71; i < 86; i++) mainTable.appendChild(createElementDiv(elements[i]));
+
+            // Period 7
+            mainTable.appendChild(createElementDiv(elements[86]));
+            mainTable.appendChild(createElementDiv(elements[87]));
+            mainTable.appendChild(createSpacer());
+            for (let i = 103; i < 118; i++) mainTable.appendChild(createElementDiv(elements[i]));
+
+            // Lanthanides row (57-71) - full size
+            const lanHeader = document.createElement('div');
+            lanHeader.className = 'fblock-label';
+            lanHeader.textContent = '57 — 71   LANTHANIDES';
+            mainWrapper.appendChild(lanHeader);
+
+            const lanRow = document.createElement('div');
+            lanRow.className = 'fblock-row';
+            for (let i = 56; i <= 70; i++) lanRow.appendChild(createElementDiv(elements[i]));
+            mainWrapper.appendChild(lanRow);
+
+            // Actinides row (89-103) - full size, Ac and Th included
+            const actHeader = document.createElement('div');
+            actHeader.className = 'fblock-label';
+            actHeader.textContent = '89 — 103   ACTINIDES';
+            mainWrapper.appendChild(actHeader);
+
+            const actRow = document.createElement('div');
+            actRow.className = 'fblock-row';
+            for (let i = 88; i <= 102; i++) actRow.appendChild(createElementDiv(elements[i]));
+            mainWrapper.appendChild(actRow);
+        }
+
+        function showHoloPopup(e, el) {
+            if (hideTimeout) clearTimeout(hideTimeout);
+            const popup = document.getElementById('holo-popup');
+            popup.innerHTML = `
+                <div class="flex items-center gap-4 mb-3">
+                    <span class="text-5xl font-bold text-cyan-300">${el.symbol}</span>
+                    <div>
+                        <div class="text-white">${el.number} — ${el.name}</div>
+                        <div class="text-xs text-cyan-200">Mass: ${el.mass} u</div>
+                    </div>
+                </div>
+                <div class="text-xs leading-snug text-slate-300">${el.notes}</div>
+            `;
+            popup.style.left = `${e.pageX + 30}px`;
+            popup.style.top = `${e.pageY - 160}px`;
+            popup.classList.remove('hidden');
+
+            popup.onmouseenter = () => { if (hideTimeout) clearTimeout(hideTimeout); };
+            popup.onmouseleave = hideHoloPopup;
+        }
+
+        function hideHoloPopup() {
+            if (hideTimeout) clearTimeout(hideTimeout);
+            hideTimeout = setTimeout(() => {
+                document.getElementById('holo-popup').classList.add('hidden');
+            }, 180);
+        }
+
+        function showCrystalModal(el) {
+            currentElement = el;
+            const modal = document.getElementById('modal');
+            document.getElementById('modal-title').innerHTML = `${el.number} — <span class="text-cyan-300">${el.symbol}</span> <span class="text-2xl">${el.name}</span>`;
+            
+            document.getElementById('modal-notes').innerHTML = `
+                <div><strong class="text-cyan-300">Atomic Structure:</strong><br>
+                    Nucleus + Electron Orbitals</div>
+                    <div><strong class="text-cyan-300">Properties:</strong><br>${el.notes}</div>
+            `;
+
+            modal.classList.remove('hidden');
+
+            setTimeout(() => {
+                const container = document.getElementById('three-canvas');
+                container.innerHTML = '';
+
+                const width = container.clientWidth || 820;
+                const height = 460;
+
+                scene = new THREE.Scene();
+                camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 200);
+                renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                renderer.setSize(width, height);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                container.appendChild(renderer.domElement);
+
+                scene.add(new THREE.AmbientLight(0x67e8f9, 1.2));
+
+                const light = new THREE.PointLight(0x00f5ff, 3, 200);
+                light.position.set(20, 20, 20);
+                scene.add(light);
+
+                const atom = new THREE.Group();
+
+                // NUCLEUS
+                const nucleusGeo = new THREE.SphereGeometry(2.2, 32, 32);
+                const nucleusMat = new THREE.MeshPhongMaterial({
+                    color: 0x00f5ff,
+                    emissive: 0x67e8f9,
+                    shininess: 100
+                });
+
+                const nucleus = new THREE.Mesh(nucleusGeo, nucleusMat);
+                atom.add(nucleus);
+
+                // ELECTRON ORBITS
+                const electronCount = Math.min(el.number, 20);
+                const orbitRadii = [4, 6, 8];
+
+                let electronsPlaced = 0;
+
+                orbitRadii.forEach((radius, orbitIndex) => {
+                    const orbit = new THREE.RingGeometry(radius, radius + 0.05, 64);
+                    const orbitMat = new THREE.MeshBasicMaterial({
+                        color: 0x67e8f9,
+                        side: THREE.DoubleSide,
+                        transparent: true,
+                        opacity: 0.4
+                    });
+
+                    const ring = new THREE.Mesh(orbit, orbitMat);
+                    ring.rotation.x = Math.PI / 2;
+                    atom.add(ring);
+
+                    const electronsInOrbit = Math.min(electronCount - electronsPlaced, 8);
+
+                    for (let i = 0; i < electronsInOrbit; i++) {
+                        const angle = (i / electronsInOrbit) * Math.PI * 2;
+
+                        const electronGeo = new THREE.SphereGeometry(0.35,16, 16);
+                        const electronMat = new THREE.MeshBasicMaterial({ color: 0xffffff});
+
+                        const electron = new THREE.Mesh(electronGeo, electronMat);
+                        electron.userData = { angle, radius, speed: 0.01 + Math.random() * 0.01 };
+
+                        electron.position.x = Math.cos(angle) * radius;
+                        electron.position.z = Math.sin(angle) * radius;
+
+                        atom.add(electron);
+                    }
+
+                    electronsPlaced += electronsInOrbit;
+                });
+             scene.add(atom);
+             camera.position.set(0, 6, 18);
+             camera.lookAt(0, 0, 0);
+
+             function animate () {
+                animationFrameId = requestAnimationFrame(animate);
+
+                atom.rotation.y += 0.002;
+
+                atom.children.forEach(obj => {
+                    if (obj.userData?.angle !== undefined) {
+                        obj.userData.angle += obj.userData.speed;
+                        obj.position.x = Math.cos(obj.userData.angle) * obj.userData.radius;
+                        obj.position.z = Math.sin(obj.userData.angle) * obj.userData.radius;
+                    }
+                });
+
+                renderer.render(scene, camera);
+            }
+
+            console.log("Scene created:", scene);
+            console.log("Atom children:", atom.children.length);
+
+            animate();
+        }, 80);
+    }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.add('hidden');
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            if (renderer) renderer.dispose();
+            currentElement = null;
+        }
+
+        function exportToXYZ() {
+            if (!currentElement) return;
+            const symbol = currentElement.symbol;
+            let xyzContent = `${currentElement.number}
+${symbol} atomic model
+`;
+            // simple nucleus + electrons mock layout
+            xyzContent += `${symbol} 0.000 0.000 0.000\n`;
+
+            for (let i = 0; i < Math.min(currentElement.number, 10); i++) {
+                xyzContent += `e ${Math.random()*5} ${Math.random()*5} ${Math.random()*5}\n`;
+            }
+
+            const blob = new Blob([xyzContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${symbol}_atomic_structure.xyz`;
+            a.click();
+            URL.revokeObjectURL(url);
+            alert(`✅ Exported ${symbol}_atomic_structure.xyz
+
+Open in Avogadro for full modeling and material design.`);
+        }
+
+        function openAvogadroHelp() {
+            window.open('https://avogadro.cc', '_blank');
+        }
+
+        window.onload = () => {
+            createElements();
+            console.log('%c🌌 COSMIC PERIODIC TABLE — Fully centered + Avogadro export ready!', 'color:#67e8f9; font-size:16px; font-weight:700;');
+        };
+    </script>
+</body>
+</html>
