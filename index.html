@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The PERIODIC TABLE</title>
+    <title>THE PERIODIC TABLE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
@@ -70,13 +70,13 @@
         
         .element:hover { 
             transform: scale(1.28) translateY(-5px); 
-            box-shadow: 0 0 35px #00f5ff, 0 0 70px #67e8f9; 
-            border-color: #00f5ff; 
+            /* box-shadow: 0 0 35px #00f5ff, 0 0 70px #67e8f9; 
+            border-color: #00f5ff;  */
             z-index: 30; 
         }
-        .element .number { position: absolute; top: 5px; left: 7px; font-size: 10px; color: #67e8f9; font-weight: 600; text-shadow: 0 0 6px #00f5ff; }
-        .element .symbol { font-size: 27px; font-weight: 700; color: #ffffff; letter-spacing: -1.2px; text-shadow: 0 0 10px #67e8f9; }
-        .element .mass { font-size: 9px; color: #bae6fd; margin-top: 2px; }
+        .element .number { position: absolute; top: 3px; left: 5px; font-size: 11px; color: #85effd; font-weight: 900; text-shadow: 0 0 5px #3d3d3d; }
+        .element .symbol { font-size: 22px; font-weight: 700; color: #ffffff; letter-spacing: -1.0px; text-shadow: 0 0 8px #6ca9b1; margin-top: 6px;  }
+        .element .mass { font-size: 10px; color: #bae6fd; margin-top: 1px; }
         
         .spacer {
             width: 64px; height: 64px; 
@@ -176,6 +176,32 @@
     </div>
 
     <script>
+
+        const GROUPS = {
+            alkali: [3, 11, 19, 37, 55, 87],
+            alkaline_earth: [4, 12, 20, 38, 56, 88],
+            transition: [22,23,24,25,26,27,28,29,30,
+                        40,41,42,43,44,45,46,47,48,
+                        72,73,74,75,76,77,78,79,80,
+                        104,105,106,107,108,109,110,111,112],
+            other_metals: [13,31,49,50,81,82,83, 113,114,115,116],
+            metalloid: [5,14,32,33,51,52, 84],
+            nonmetal: [1,6,7,8,15,16,34],
+            halogen: [9,17,35,53,85, 117],
+            noble_gas: [2,10,18,36,54,86, 118],
+            lanthanide: [21,39,57,58,59,60,61,62,63,64,65,66,67,68,69,70, 71],
+            actinide: [89, 90, 91,92,93,94,95,96,97,98,99,100,101,102,103]
+        }
+
+        function getGroup(atomicNumber) {
+            for (const [group, numbers] of Object.entries(GROUPS)) {
+                if (numbers.includes(atomicNumber)) {
+                    return group;
+                }
+            }
+            return "unknown";
+        }
+
         // FULL 118 ELEMENTS (complete)
         const elements = [
             {"number":1,"symbol":"H","name":"Hydrogen","mass":"1.008","lattice":"hex","notes":"Lightest element, powers stars via fusion."},
@@ -298,9 +324,29 @@
             {"number":118,"symbol":"Og","name":"Oganesson","mass":"[294]","lattice":"unknown","notes":"Synthetic noble gas candidate."}
         ];
 
+        elements.forEach(el => {
+            el.group = getGroup(el.number);
+        })
+
+        const GROUP_COLORS = {
+            alkali: "#ff7f00",
+            alkaline_earth: "#facc15",
+            transition: "#6b21a8",
+            other_metals: "#fca5a5",
+            metalloid: "#fef08a",
+            nonmetal: "#991b1b",
+            halogen: "#22c55e",
+            noble_gas: "#3b82f6",
+            lanthanide: "#84cc16",
+            actinide: "#67e8f9",
+            unknown: "#ffffff"
+        };
+
         let scene, camera, renderer, crystal, animationFrameId;
         let hideTimeout = null;
         let currentElement = null;
+
+
 
         function createElementDiv(el) {
             const div = document.createElement('div');
@@ -310,9 +356,24 @@
                 <div class="symbol">${el.symbol}</div>
                 <div class="mass">${el.mass}</div>
             `;
-            div.onmouseover = (e) => showHoloPopup(e, el);
-            div.onmouseout = hideHoloPopup;
+
+            const originalColor = "#67e8f9";
+            div.style.borderColor = originalColor;
+            div.style.boxShadow = `0 0 12px ${originalColor}`;
+
+            div.onmouseover = (e) => {
+                const groupColor = GROUP_COLORS[el.group] || originalColor;
+                div.style.borderColor = groupColor;
+                div.style.boxShadow = `0 0 20px ${groupColor}, 0 0 40px ${groupColor}`;
+                showHoloPopup(e, el);
+            },
+            div.onmouseout = () => {
+                div.style.borderColor = originalColor;
+                div.style.boxShadow = `0 0 12px ${originalColor}`;
+                hideHoloPopup();
+            },
             div.onclick = () => showCrystalModal(el);
+            
             return div;
         }
 
@@ -321,6 +382,8 @@
             div.className = 'spacer';
             return div;
         }
+
+        // CREATE ELEMENTS
 
         function createElements() {
             const container = document.getElementById('grid-mode');
@@ -395,6 +458,7 @@
         function showHoloPopup(e, el) {
             if (hideTimeout) clearTimeout(hideTimeout);
             const popup = document.getElementById('holo-popup');
+            const groupColor = GROUP_COLORS[el.group] || "#67e8f9"
             popup.innerHTML = `
                 <div class="flex items-center gap-4 mb-3">
                     <span class="text-5xl font-bold text-cyan-300">${el.symbol}</span>
@@ -405,10 +469,17 @@
                 </div>
                 <div class="text-xs leading-snug text-slate-300">${el.notes}</div>
             `;
+
+            // Position Near Cursor
             popup.style.left = `${e.pageX + 30}px`;
             popup.style.top = `${e.pageY - 160}px`;
             popup.classList.remove('hidden');
 
+            // Glow Effect = Group Color
+            popup.style.border = `2px solid ${groupColor}`;
+            popup.style.boxShadow = `0 0 20px ${groupColor}33, 0 0 40px ${groupColor}22`;
+            pop.classList.remove('hidden');
+            // Keep Popup Visible While Hovering Over
             popup.onmouseenter = () => { if (hideTimeout) clearTimeout(hideTimeout); };
             popup.onmouseleave = hideHoloPopup;
         }
@@ -416,7 +487,8 @@
         function hideHoloPopup() {
             if (hideTimeout) clearTimeout(hideTimeout);
             hideTimeout = setTimeout(() => {
-                document.getElementById('holo-popup').classList.add('hidden');
+                const popup = documnet.getElementById('holo-popup');
+                popup.classList.add('hidden');
             }, 180);
         }
 
