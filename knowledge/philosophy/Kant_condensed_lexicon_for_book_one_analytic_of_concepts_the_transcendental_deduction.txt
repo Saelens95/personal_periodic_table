@@ -1,0 +1,16 @@
+# NOTES ON THE CRITIQUE OF PURE REASON BY IMMANUEL KANT
+
+# START NOTE 
+
+# TITLE: A CONDENSED LEXICON FOR BOOK ONE OF THE ANALYTIC OF CONCEPTS (THE TRANSCENDENTAL DEDUCTION)
+
+1. Cognition - knowledge that arises when intuition (what is given) and concepts (what is thought) unite
+2. Intuition - immediate representation of an object (Empirical: via sensation; Pure: form of space and time)
+3. Sensibility - faculty that receives appearances; the source of intuitions (Forms: Space (outer), Time (inner))
+4. Understanding - faculty that thinks objects by applying concepts to intuitions (Creates order through catergories)
+5. Concept - a general rule that groups multiple intuitions (Pure Concepts = Categories)
+6. Category - innate concept of the understanding (Gives structure to experience; is a condition that makes for the possibility of objects)
+7. Transcendental - concerned with how experience is possible a priori (the structure that makes knowledge possible)
+8. Manifold - the raw multiplicity of sense data before synthesis
+9. Synthesis - the active combination of the manifold into one experience (Types: Apprehension = gather data; Reproduction = recall data; Recognition = identify unity)
+10. Appreception - self-awareness of the unity of consciousness (Empirical App.: awareness of states; Transcendental App.: the "I think" that accompanies representations)

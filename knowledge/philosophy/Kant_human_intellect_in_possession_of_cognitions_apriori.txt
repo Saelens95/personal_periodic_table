@@ -1,0 +1,19 @@
+# NOTES ON THE CRITIQUE OF PURE REASON BY IMMANUEL KANT
+
+# START NOTE 
+
+# TITLE: THE HUMAN INTELLECT, EVEN IN AN UNPHILOSOPHICAL STATE, IS IN POSSESSION OF CERTAIN COGNITIONS A PRIORI:
+
+-> Kant argues that all humans, even without formal philosophical training, naturally possess some a priori knowledge--knowledge independent of experience.
+    -> We don't have to learn space and time through experience; 
+        -> We already perceive the world within these frameworks;
+    
+    -> Even before studying philosophy, people instictively assume cause and effect;
+        -> We naturally expect that an event has a cause;
+    
+    -> This means that a priori knowledge is not something we learn, but something our minds are akready structured to use.
+
+-> The human mind actively shapes reality, rather than passively receiving information.
+    -> Experience fills in the details, but the framework is already there.
+
+    # END NOTE

@@ -1,0 +1,18 @@
+# NOTES ON THE CRITIQUE OF PURE REASON BY IMMANUEL KANT
+
+# START NOTE 
+
+# TITLE: PHILOSOPHY STANDS IN NEED OF A SCIENCE WHICH SHALL DETERMINE THE POSSIBILITY, PRINCIPLES, AND EXTENT OF HUMAN KNOWLEDGE A PRIORI
+
+-> Kant argues that philosophy requires a systematic science of pure reason to establish limits and foundations of a priori knowledge.
+    -> While people use a priori knowledge, philosophy must critically examine it to determine its validity.
+        -> Key Question: What can we truly know before experience?
+    
+    -> Traditional Metaphysics (questions about God, the soul, free will, etc.) relies heavily on a priori reasoning.
+        -> Kant believes it often goes beyond what human reason is actually capable of knowing.
+    
+    
+    -> Thus, Kant proposes a "Critique of Pure Reason" -- a rigorous investigation into what reason can and cannot achieve on its own.
+
+
+# END NOTE

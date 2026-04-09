@@ -1,0 +1,27 @@
+# NOTES ON THE CRITIQUE OF PURE REASON BY IMMANUEL KANT
+
+# START NOTE 
+
+# TITLE: OF THE DIFFERENCE BETWEEN ANALYTICAL AND SYNTHETICAL JUDGMENTS
+
+-> Kant distinguishes between two types of judgments: analytical and synthetical
+
+    -> Analytical Judgment = statements where the predicate is already contained in the subject
+        -> True by definition and do not add new information
+            -> Ex. "All bachelors are unmarried." where the concept of "unmarried" is already included in "bachelor".
+        * These are a priori and dot need/require experience
+
+    -> Syntehtical Judgments = these add new information to the subject, expanding our knowledge
+        -> Ex. "The suhn will rise tomorrow." where the concept of "rising tomorrow" is not contained in "the sun".
+        * These judgments can be a posterori (based on experience) or a priori (what Kant is most interested in--as am I)
+
+    -> Kant's Big Question: Are there synthetical judgments that are a priori?
+        -> If so, they would provide new knowledge without relying on experience.
+            -> This is the foundation of metaphysics and pure mathematics.
+        -> Kant argues that disciplines like mathematics and certain principles of physics rely on synthetical a priori judgments.
+    
+    -> This distinction is crucial to his Critique of Pure Reason.
+        -> It sets up his argument that knowledge isn't just about definitions (analytic) or experience (synthetic a posterori).
+            -> It's about how reason itself can expand knowledge through synthetic a priori judgments.
+
+# END NOTE

@@ -1,0 +1,22 @@
+# NOTES ON THE CRITIQUE OF PURE REASON BY IMMANUEL KANT
+
+# START NOTE 
+
+# TITLE: OF THE DIFFERENCE BETWEEN EMPIRICAL AND PURE KNOWLEDGE:
+
+-> Kant explains that knowledge comes from experience (empirical knowledge) but also from reason alone (pure knowledge).
+
+-> Emipirical Knowledge: comes from sensory experience
+    -> it is posteriori -- learned through observation (ex. fire is hot comes from experiencing heat)
+
+-> Pure Knowledge: indepedent of experience
+    -> it is a priori -- exists before any sensory input (ex. math -- 2 + 2 = 4, regardless of experience)
+
+-> Kant argues that while empirical knowledge is important, pure knowledge is necessary for understanding the fundemental structure of reality.
+
+-> Certain concepts (e.g, space, time, causality, etc.) must exist in the mind before experience can even make sense. 
+
+-> Kant's big argument is that our minds structure experience using a priori concepts.
+    -> We don't just observe reality, we impose catagories on reality in order to make sense of it
+
+# END NOTE

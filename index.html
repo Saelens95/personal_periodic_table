@@ -70,8 +70,6 @@
         
         .element:hover { 
             transform: scale(1.28) translateY(-5px); 
-            /* box-shadow: 0 0 35px #00f5ff, 0 0 70px #67e8f9; 
-            border-color: #00f5ff;  */
             z-index: 30; 
         }
         .element .number { position: absolute; top: 3px; left: 5px; font-size: 11px; color: #85effd; font-weight: 900; text-shadow: 0 0 5px #3d3d3d; }
@@ -338,7 +336,7 @@
             halogen: "#22c55e",
             noble_gas: "#3b82f6",
             lanthanide: "#84cc16",
-            actinide: "#67e8f9",
+            actinide: "#c4b5fd",
             unknown: "#ffffff"
         };
 
@@ -455,19 +453,44 @@
             mainWrapper.appendChild(actRow);
         }
 
+        function hexToRgba(hex, alpha = 0.60) {
+            const clean = hex.replace("#", "");
+            const r = parseInt(clean.substring(0,2), 16);
+            const g = parseInt(clean.substring(2,4), 16);
+            const b = parseInt(clean.substring(4,6), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
         function showHoloPopup(e, el) {
+        
             if (hideTimeout) clearTimeout(hideTimeout);
             const popup = document.getElementById('holo-popup');
             const groupColor = GROUP_COLORS[el.group] || "#67e8f9"
+            const bgColor = hexToRgba(groupColor, 0.65);
+
             popup.innerHTML = `
                 <div class="flex items-center gap-4 mb-3">
-                    <span class="text-5xl font-bold text-cyan-300">${el.symbol}</span>
+                    <span
+                     class="text-5xl font-bold"
+                     style="color: #ffffff; text-shadow: 0 0 10px rgba(0,0,0, 0.7);"
+                     >
+                     ${el.symbol}
+                     </span>
                     <div>
-                        <div class="text-white">${el.number} — ${el.name}</div>
-                        <div class="text-xs text-cyan-200">Mass: ${el.mass} u</div>
+                        <div class="font-semibold text-white tracking-wide
+                        style="text-shadow: 0 0 6px rgba(255,255,255,0.4);">
+                        ${el.number} — ${el.name}
+                        </div>
+                        <div class="text-xs font-medium text-cyan/90"
+                        style="text-shadow: 0 0 4px rgba(0,0,0,0.25);">
+                        Mass: ${el.mass} u
+                        </div>
                     </div>
                 </div>
-                <div class="text-xs leading-snug text-slate-300">${el.notes}</div>
+                <div class="text-xs font-medium leading-snug text-white/85"
+                style="text-shadow: 0 03px rgba(0,0,0,0.2);">
+                ${el.notes}
+                </div>
             `;
 
             // Position Near Cursor
@@ -476,9 +499,9 @@
             popup.classList.remove('hidden');
 
             // Glow Effect = Group Color
+            popup.style.background = bgColor;
             popup.style.border = `2px solid ${groupColor}`;
-            popup.style.boxShadow = `0 0 20px ${groupColor}33, 0 0 40px ${groupColor}22`;
-            pop.classList.remove('hidden');
+            popup.style.boxShadow = `0 0 30px ${groupColor}`;
             // Keep Popup Visible While Hovering Over
             popup.onmouseenter = () => { if (hideTimeout) clearTimeout(hideTimeout); };
             popup.onmouseleave = hideHoloPopup;

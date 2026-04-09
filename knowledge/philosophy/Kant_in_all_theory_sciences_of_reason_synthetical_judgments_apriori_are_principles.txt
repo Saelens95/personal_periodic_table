@@ -1,0 +1,25 @@
+# NOTES ON THE CRITIQUE OF PURE REASON BY IMMANUEL KANT
+
+# START NOTE 
+
+# TITLE: IN ALL THEORITICAL SCIENCES OF REASON, SYNTHETICAL JUDGMENTS A PRIORI ARE CONTAINED AS PRINCIPLES
+
+-> Kant argues that all theoritical sciences rely on synthetic a priori judgments as the fundemental principles.
+    -> They expand knowledge without direct experience.
+
+        -> Mathematics - prime example of synthetic a priori knowledge
+            -> Ex. 7 + 5 = 12 is not just analytic (contained in definitions of 7 and 5)
+                -> They actually extend our knowledge through pure intuition of numbers.
+
+        -> Pure Natural Science (Physics) - its fundemental laws are not purely derived from experience
+            -> Though these laws happen to be necessary prinicples that our mind applies to experience.
+
+        -> Metaphysics - attempts to use synthetic a priori knowledge, but Kant questions whether it does so legitimately
+
+    * This section sets up Kant's goal: to establish a rigorous science of pure reason
+        -> One that determines how synthetic a priori judgments are possible, especially in fields like mathematics and physics.
+    
+    * Basically: create a way to explain how we can learn mopre about something without having to experience it first.
+
+
+# END NOTE
