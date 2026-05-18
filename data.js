@@ -426,7 +426,7 @@ const CHEM_QUESTIONS = {
     particles: [
 
         {
-            question: "What particle has a postive charge?",
+            question: "What particle has a positive charge?",
             correct: "Proton",
             answers: [
                 "Proton",
@@ -571,157 +571,205 @@ const CHEM_QUESTIONS = {
             ]
         },
 
-        {
-            question: "What is the center of an atom called?",
-            correct: "Nucleus",
-            answers: [
-                "Electron Shell",
-                "Nucleus",
-                "Proton Cloud",
-                "Core"
-            ]
-        },
+    //     {
+    //         question: "What is the center of an atom called?",
+    //         correct: "Nucleus",
+    //         answers: [
+    //             "Electron Shell",
+    //             "Nucleus",
+    //             "Proton Cloud",
+    //             "Core"
+    //         ]
+    //     },
+
+    //     {
+    //         question: "Which particle determines the element?",
+    //         correct: "Protons",
+    //         answers: [
+    //             "Electrons",
+    //             "Neutrons",
+    //             "Protons",
+    //             "Ions"
+    //         ]
+    //     },
+
+    //     {
+    //         question: "Atoms with different neutron counts are called?",
+    //         correct: "Isotopes",
+    //         answers: [
+    //             "Compound",
+    //             "Ions",
+    //             "Molecules",
+    //             "Isotopes"
+    //         ]
+    //     },
+
+    //     {
+    //         question: "What is the atomic number?",
+    //         correct: "Number of protons",
+    //         answers: [
+    //             "Number of neutrons",
+    //             "Number of protons",
+    //             "Atomic mass",
+    //             "Electron charge"
+    //         ]
+    //     },
+
+    //     {
+    //         question: "What charge does a neutral atom have?",
+    //         correct: "No net charge",
+    //         answers: [
+    //             "Positive",
+    //             "Negative",
+    //             "No net charge",
+    //             "Variable"
+    //         ]
+    //     },
+
+    //     {
+    //         question: "What happens when an atom gains electrons?",
+    //         correct: "It becomes negative",
+    //         answers: [
+    //             "It becomes neutral",
+    //             "It becomes positive",
+    //             "It becomes unstable",
+    //             "It becomes negative"
+    //         ]
+    //     },
+
+    //     {
+    //         question: "What happens when an atom loses electrons?",
+    //         correct: "It becomes positive",
+    //         answers: [
+    //             "It becomes negative",
+    //             "It becomes positive",
+    //             "It becomes neutral",
+    //             "It becomes heavier"
+    //         ]
+    //     },
+
+    //     {
+    //         question: "What is an element's mass number?",
+    //         correct: "Protons plus neutrons",
+    //         answers: [
+    //             "Electrons plus protons",
+    //             "Protons only",
+    //             "Protons plus neutrons",
+    //             "Neutrons only"
+    //         ]
+    //     },
+
+    //     {
+    //         question: "Which particles are found in the nucleus?",
+    //         correct: "Protons and neutrons",
+    //         answers: [
+    //             "Electrons and protons",
+    //             "Electrons only",
+    //             "Neutrons and electrons",
+    //             "Protons and neutrons"
+    //         ]
+    //     },
+
+    //     {
+    //         question: "What is a charged atom called",
+    //         correct: "Ion",
+    //         answers: [
+    //             "Molecule",
+    //             "Ion",
+    //             "Compound",
+    //             "Isotope"
+    //         ]
+    //     },
+
+    //     {
+    //         question: "Most of an atom's mass is located where?",
+    //         correct: "Nucleus",
+    //         answers: [
+    //             "Photons",
+    //             "Nucleus",
+    //             "Electrons",
+    //             "Atoms don't have mass"
+    //         ]
+    //     },
+
+    //     {
+    //         question: "About how many different kinds of atoms are there?",
+    //         correct: "Over 100",
+    //         answers: [
+    //             "Less than 20",
+    //             "No more than 50",
+    //             "Over 100",
+    //             "Over 500"
+    //         ]
+    //     },
+
+    //     {
+    //         question: "What is the most abundant type of atom in the universe?",
+    //         correct: "Hydrogen",
+    //         answers: [
+    //             "Helium",
+    //             "Hydrogen",
+    //             "Neon",
+    //             "Iron"
+    //         ]
+    //     },
+
+    //     {
+    //         question: "Atoms bond together to form?",
+    //         correct: "Molecules",
+    //         answers: [
+    //             "Neutrons",
+    //             "Protons",
+    //             "Molecules",
+    //             "Nuclei"
+    //         ]
+    //     },
+    // ],
+    ],
+
+    molecules: [
 
         {
-            question: "Which particle determines the element?",
-            correct: "Protons",
+            question: "Molecules are made of what?",
+            correct: "Atoms",
             answers: [
-                "Electrons",
-                "Neutrons",
                 "Protons",
-                "Ions"
+                "Atoms",
+                "Oxygen",
+                "Neutrons"
             ]
         },
 
         {
-            question: "Atoms with different neutron counts are called?",
-            correct: "Isotopes",
+            question: "What shape is a molecule?",
+            correct: "Molecules have many shapes and sizes",
             answers: [
-                "Compound",
-                "Ions",
-                "Molecules",
-                "Isotopes"
+                "Molecules have no shape",
+                "Molecules look like squares",
+                "Molecules look like triangles",
+                "Molecules have many shapes and sizes"
             ]
         },
 
         {
-            question: "What is the atomic number?",
-            correct: "Number of protons",
+            question: "What is it called when a molecule breaks down into its component atom(s)?",
+            correct: "Decomposition reaction",
             answers: [
-                "Number of neutrons",
-                "Number of protons",
-                "Atomic mass",
-                "Electron charge"
+                "Decay",
+                "Heat transfer",
+                "Loss state",
+                "Decomposition reaction"
             ]
         },
 
         {
-            question: "What charge does a neutral atom have?",
-            correct: "No net charge",
+            question: "Who proposed that all matter is made of tiny building blocks called atoms?",
+            correct: "John Dalton",
             answers: [
-                "Positive",
-                "Negative",
-                "No net charge",
-                "Variable"
-            ]
-        },
-
-        {
-            question: "What happens when an atom gains electrons?",
-            correct: "It becomes negative",
-            answers: [
-                "It becomes neutral",
-                "It becomes positive",
-                "It becomes unstable",
-                "It becomes negative"
-            ]
-        },
-
-        {
-            question: "What happens when an atom loses electrons?",
-            correct: "It becomes positive",
-            answers: [
-                "It becomes negative",
-                "It becomes positive",
-                "It becomes neutral",
-                "It becomes heavier"
-            ]
-        },
-
-        {
-            question: "What is an element's mass number?",
-            correct: "Protons plus neutrons",
-            answers: [
-                "Electrons plus protons",
-                "Protons only",
-                "Protons plus neutrons",
-                "Neutrons only"
-            ]
-        },
-
-        {
-            question: "Which particles are found in the nucleus?",
-            correct: "Protons and neutrons",
-            answers: [
-                "Electrons and protons",
-                "Electrons only",
-                "Neutrons and electrons",
-                "Protons and neutrons"
-            ]
-        },
-
-        {
-            question: "What is a charged atom called",
-            correct: "Ion",
-            answers: [
-                "Molecule",
-                "Ion",
-                "Compound",
-                "Isotope"
-            ]
-        },
-
-        {
-            question: "Most of an atom's mass is located where?",
-            correct: "Nucleus",
-            answers: [
-                "Photons",
-                "Nucleus",
-                "Electrons",
-                "Atoms don't have mass"
-            ]
-        },
-
-        {
-            question: "About how many different kinds of atoms are there?",
-            correct: "Over 100",
-            answers: [
-                "Less than 20",
-                "No more than 50",
-                "Over 100",
-                "Over 500"
-            ]
-        },
-
-        {
-            question: "What is the most abundant type of atom in the universe?",
-            correct: "Hydrogen",
-            answers: [
-                "Helium",
-                "Hydrogen",
-                "Neon",
-                "Iron"
-            ]
-        },
-
-        {
-            question: "Atoms bond together to form?",
-            correct: "Molecules",
-            answers: [
-                "Neutrons",
-                "Protons",
-                "Molecules",
-                "Nuclei"
+                "John Dalton",
+                "Albert Einstein",
+                "Isaac Newton",
+                "Marie Curie"
             ]
         },
     ]

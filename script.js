@@ -66,7 +66,7 @@ function renderPolyProgHome() {
                 </div>
                 
                 <div class="phenonics-subtitle ">
-                    learn phenomenally
+                     the language of phenomena
                 </div>
 
                 <div class="phenonics-divider"></div>
@@ -752,7 +752,7 @@ function showCompletionPopup(tier) {
         <div class="correct-popup-card">
             
             <div class="section-title correct-popup-title">
-                Yay!
+                Nice job!
             </div>
             
             <div class="phenonics-subtitle correct-popup-subtitle">
@@ -788,6 +788,18 @@ function unlockNextTier(tier) {
 
         showUnlockPopup("Atoms");
     }
+
+    if (tier === "atoms") {
+        const moleculeTier = CHEM_JOURNEY.find(
+            section => section.id === "molecules"
+        );
+
+        if (moleculeTier) {
+            moleculeTier.unlocked = true;
+        }
+
+        showUnlockPopup("Molecules")
+    }
 }
 
 function showUnlockPopup(nextTierName) {
@@ -799,12 +811,12 @@ function showUnlockPopup(nextTierName) {
     popup.innerHTML = `
         <div class="correct-popup-card">
         
-            <div class="section-title correct-popup-title">
-                New Tier Unlocked!
+            <div class="section-title tier-unlocked-title">
+                Tier Unlocked!
             </div>
             
-            <div class="phenonics-subtitle correct-popup-subtitle">
-                You've unlocked ${nextTierName}!
+            <div class="phenonics-subtitle tier-unlocked-subtitle">
+                ${nextTierName}
             </div>
             
             <button class="control-btn popup-btn" id="unlock-ok-btn">
@@ -1269,6 +1281,11 @@ function buildPeriodicTable(container, targetSet = null) {
     mainWrapper.className = 'main-wrapper';
     container.appendChild(mainWrapper);
 
+    const trendLayer = document.createElement("div");
+    trendLayer.className = "trend-layer";
+
+    mainWrapper.appendChild(trendLayer)
+
     const mainTable = document.createElement('div');
     mainTable.className = 'periodic-table';
     mainWrapper.appendChild(mainTable);
@@ -1329,6 +1346,37 @@ function buildPeriodicTable(container, targetSet = null) {
     actRow.className = 'fblock-row';
     for (let i = 88; i <= 102; i++) actRow.appendChild(createElementSlot(elements[i], targetSet));
     mainWrapper.appendChild(actRow);
+
+    renderTrendLines(trendLayer);
+}
+
+function renderTrendLines(container) {
+
+    container.innerHTML = "";
+
+    if (overlays.electronegativity) {
+
+        container.innerHTML = `
+            <div class="trend-line horizontal trend-right"></div>
+            <div class="trend-line vertical trend-up"></div>
+        `;
+    }
+
+    if (overlays.ionization) {
+
+        container.innerHTML += `
+            <div class="trend-line horizontal trend-right ion-color"></div>
+            <div class="trend-line vertical trend-up ion-color"></div>
+        `;
+    }
+
+    if (overlays.radius) {
+
+        container.innerHTML += `
+            <div class="trend-line horizontal trend-left radius-color"></div>
+            <div class="trend-line vertical trend-down radius-color"></div>
+        `;
+    }
 }
 
 function openElementalFitMenu() {

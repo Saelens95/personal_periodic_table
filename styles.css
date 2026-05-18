@@ -958,6 +958,88 @@ body.game-mode .header-fade::after {
     width: 100%;
 }
 
+
+.trend-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 20;
+}
+
+.trend-line {
+    position: absolute;
+}
+
+.horizontal {
+    top: 10px;
+    left: 200px;
+    width: 60%;
+    height: 5px;
+    background: linear-gradient(
+        to right,
+        #69FAAD,
+        #ff0000
+    );
+    border-radius: 999px;
+}
+
+.vertical {
+    top: 30px;
+    right: 12px;
+    width: 5px;
+    height: 85%;
+    background: linear-gradient(
+        #ff0000,
+        #69FAAD
+    );
+    border-radius: 999px;
+}
+
+.horizontal::after,
+.vertical::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+}
+
+.trend-right::after {
+    right: -10px;
+    top: -4px;
+
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 12px solid #ff0000;
+}
+
+.trend-left::after {
+    left: -10px;
+    top: -4px;
+
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 12px solid #69FAAD;
+}
+
+.trend-up::after {
+    top: -10px;
+    left: -4px;
+
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 12px solid #ff0000;
+}
+
+.trend-down::after {
+    bottom: -10px;
+    left: -4px;
+
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 12px solid #69FAAD;
+}
+
+
 .holo-popup { 
     position: fixed; 
     background: rgba(15,23,42,0.98); 
@@ -1512,7 +1594,7 @@ body.game-mode .header-fade::after {
             rgba(18,18,18,0.98)
         );
 
-    border: 3px solid rgba(105,250,173,0.9);
+    border: 5px solid rgba(105,250,173,0.9);
 
 
     box-shadow: 0 0 35px rgba(105,250,173,0.18);
@@ -1530,14 +1612,36 @@ body.game-mode .header-fade::after {
 
 .correct-popup-title {
     color: #69FAAD;
+    font-weight: 550;
 
     text-shadow: 0 0 10px rgba(0,0,0,0.81);
 }
 
 .correct-popup-subtitle {
     color: rgba(255,255,255,1);
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    font-size: 21px;
 
     text-shadow: 0 0 6px rgba(0,0,0,0.8);
+}
+
+.tier-unlocked-title {
+    color: #69FAAD;
+    font-weight: 400;
+    font-size: 50px;
+
+    text-shadow: 0 0 10px rgba(0,0,0,0.81);
+}
+
+.tier-unlocked-subtitle {
+    color: #fca5a5;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    font-size: 42px;
+    font-weight: 700;
+
+    text-shadow: 0 0 8px rgba(0,0,0,0.81);
 }
 
 .wrong-overlay {
@@ -1575,7 +1679,7 @@ body.game-mode .header-fade::after {
             rgba(20,0,0,0.96)
         );
     
-        border: 2px solid rgba(239,68,68,0.8);
+        border: 5px solid rgba(239,68,68,0.8);
 
         box-shadow: 0 0 27px rgba(239,68,68,0.18);
 
